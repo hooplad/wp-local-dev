@@ -16,15 +16,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # Good for debugging
       #puppet.options = " --verbose --detailed-exitcodes"
 
-      # install puppet on your machine then run;
-      #
-      # puppet module install hunner-wordpress
-      # puppet module install puppetlabs-apache
-
-      # This might need to change to reflect your user and home directory. This should
+      # NOTE: This might need to change to reflect your user and home directory. This should
       # work but if you get 'class not found' errors, look here
       puppee.module_path = "~/.puppet/modules/"
-      #puppet.manifests_path = "manifests"
-      #puppet.manifest_file = "default.pp"
    end
 end
