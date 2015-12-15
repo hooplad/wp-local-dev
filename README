@@ -1,0 +1,94 @@
+Setup
+
+
+Download Virtualbox (5.x ) and Vagrant (1.7.4). The Puppet install might make you do a lot of things to your Mac and create a user specifically for Puppet. I'm sorry about that. 
+
+Getting going with VirtualBox should be straightforward unless you're using an old version. If this is the case, STOP RIGHT NOW. You might be breaking your other Puppet/Vagrant scripts if you upgrade to 5.x. Otherwise, be sure to uninstall the older verson of VirtualBox first, then install the new version.
+
+You will run the following command once you have Vagrant and Puppet installed. Open a Terminal window and run the following;
+
+
+puppet module install hunner-wordpress
+puppet module install puppetlabs-apache
+
+
+You will need to do some port forwarding to make sure that you have access to the VM that you're running from your workstation.
+
+Pulled these steps from ( http://blog.brianjohn.com/forwarding-ports-in-os-x-el-capitan.html )
+
+
+sudo vim /etc/pf.anchors/wp-local-devlopment
+
+
+The file should contain:
+
+
+### START ###
+rdr pass on lo0 inet proto tcp from any to any port 80 -> 127.0.0.1 port 8080
+###  END ### 
+
+
+Now test these settings with the following command;
+
+
+sudo pfctl -vnf /etc/pf.anchors/wp-local-devlopment
+
+
+Now we want to be able to apply these changes to your workstation. Create another file like so;
+
+
+sudo vim /etc/pf-wp-local-devlopment.conf
+
+
+Have it say;
+
+
+### START ###
+rdr-anchor "forwarding"
+load anchor "forwarding" from "/etc/pf.anchors/org.spinbit.wp-devlopment"
+##  END  ###
+
+
+Test and apply this configuration like so;
+
+
+sudo pfctl -ef /etc/pf.anchors/wp-local-devlopment
+
+
+There's one last piece where you can automatically forward these things off at boot. Pull down the details here but haven't run through them yet, read about Port Forwarding on OS X 10.10 at Boot. This is entirely up to you and depends on how you have your workstation setup. This isn't required but might save you time in the future as otherwise you'll need to run the "pfctl -ef" ^^ mentioned previously. Otherwise, read on!
+
+
+Port Forwarding on OS X 10.10 at Boot
+
+
+NOTE: THIS HAS NOT YET BEEN TESTED!
+
+You can use the commands above to start port forwarding on demand if you wish, otherwise if (like me) you want to forward ports automatically at startup you can create a launchctl plist file. Create a file under /Library/LaunchDaemons/com.apple.pfctl-.plist with the following contents: 
+`
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+     <key>Label</key>
+     <string>com.apple.pfctl-<CUSTOM NAME></string>
+     <key>Program</key>
+     <string>/sbin/pfctl</string>
+     <key>ProgramArguments</key>
+     <array>
+          <string>pfctl</string>
+          <string>-e</string>
+          <string>-f</string>
+          <string>/etc/pf-<CUSTOM NAME>.conf</string>
+     </array>
+     <key>RunAtLoad</key>
+     <true/>
+     <key>KeepAlive</key>
+     <false/>
+</dict>
+</plist>
+
+
+Add the file to startup using the following command:
+
+
+sudo launchctl load -w /Library/LaunchDaemons/com.apple.pfctl-<CUSTOM NAME>.plist
