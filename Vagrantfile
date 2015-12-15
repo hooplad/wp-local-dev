@@ -7,6 +7,8 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
    # TODO this could be more specific. Not able to locate the box URL for this...
    config.vm.box = "centos64"
+
+   config.vm.hostname = "wp-dev-localhost"
    # You will need to forward ports on your machine to allow yourself
    # to view the wordpress install hosted on the VM
    # I have this documented in my tiddlywiki but it's a bit involved...
