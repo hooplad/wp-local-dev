@@ -1,10 +1,11 @@
-# -*- mode: ruby -*-
+# --*- mode: ruby -*-
 # vi: set ft=ruby :
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+   # TODO this could be more specific. Not able to locate the box URL for this...
    config.vm.box = "centos64"
    # You will need to forward ports on your machine to allow yourself
    # to view the wordpress install hosted on the VM
@@ -18,6 +19,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       # NOTE: This might need to change to reflect your user and home directory. This should
       # work but if you get 'class not found' errors, look here
-      puppee.module_path = "~/.puppet/modules/"
+      puppet.module_path = "~/.puppet/modules/"
    end
 end
