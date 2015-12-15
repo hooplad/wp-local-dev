@@ -44,6 +44,12 @@ file { '/usr/bin/wp':
    mode => "775",
    require => Exec['Install WP CLI']
 }
+->
+exec { 'Finish WP Install':
+   command => '/usr/bin/wp core install --url=http://wpdev.org --title="LOCAL DEV WordPress" --admin_user="admin" --admin_password="ouyi76376sgh3o8k3g9c7" --admin_email="root@localhost.localdomain"',
+   cwd     => '/var/www/html',
+   path    => '/sbin:/bin:/usr/sbin:/usr/bin', 
+} 
 
 #################
 # Apache
