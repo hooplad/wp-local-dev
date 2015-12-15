@@ -1,4 +1,4 @@
-Setup
+! Setup
 
 
 Download Virtualbox (5.x ) and Vagrant (1.7.4). The Puppet install might make you do a lot of things to your Mac and create a user specifically for Puppet. I'm sorry about that. 
@@ -14,6 +14,22 @@ puppet module install puppetlabs-apache
 
 You will need to do some port forwarding to make sure that you have access to the VM that you're running from your workstation.
 
+!! Editing Your Hosts File
+
+Run the following;
+
+
+vim /etc/hosts
+
+
+Add the line to it. Be sure that you're appending this;
+
+
+127.0.0.1 wpdev.org
+
+
+!! Port Forwarding on OS X 10.10
+
 Pulled these steps from ( http://blog.brianjohn.com/forwarding-ports-in-os-x-el-capitan.html )
 
 
@@ -25,6 +41,7 @@ The file should contain:
 
 ### START ###
 rdr pass on lo0 inet proto tcp from any to any port 80 -> 127.0.0.1 port 8080
+rdr pass on lo0 inet proto tcp from any to any port 443 -> 127.0.0.1 port 8443
 ###  END ### 
 
 

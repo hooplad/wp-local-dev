@@ -57,9 +57,20 @@ exec { 'Finish WP Install':
 
 class { 'apache': } 
 
-apache::vhost { 'wpdev.org':
-   port    => '8080',
-   docroot => '/var/www/html',
+apache::vhost { 'wpdev.org NON-SSL':
+   servername => 'wpdev.org',
+   docroot    => '/var/www/html',
+   port       => '80',
+   # Directory refresh issue, leaving root as owner
+   #docroot_owner => 'apache',
+   #docroot_group => 'apache',
+}
+
+apache::vhost { 'wpdev.org SSL':
+   servername => 'wpdev.org',
+   docroot    => '/var/www/html',
+   port       => '443',
+   ssl        => true,
    # Directory refresh issue, leaving root as owner
    #docroot_owner => 'apache',
    #docroot_group => 'apache',

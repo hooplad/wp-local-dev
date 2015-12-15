@@ -13,6 +13,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
    # to view the wordpress install hosted on the VM
    # I have this documented in my tiddlywiki but it's a bit involved...
    config.vm.network :forwarded_port, host: 8080, guest: 80
+   config.vm.network :forwarded_port, host: 8443, guest: 443
    config.vm.network :forwarded_port, host: 3000, guest: 3000
 
    config.vm.provision "puppet" do |puppet|
