@@ -21,8 +21,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # puppet module install hunner-wordpress
       # puppet module install puppetlabs-apache
 
-      # Change this to reflect your user and home directory
-      puppet.module_path = "~/.puppet/modules/"
+      # This might need to change to reflect your user and home directory. This should
+      # work but if you get 'class not found' errors, look here
+      puppee.module_path = "~/.puppet/modules/"
       #puppet.manifests_path = "manifests"
       #puppet.manifest_file = "default.pp"
    end
