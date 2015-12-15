@@ -5,6 +5,36 @@ service { 'iptables':
 }
 
 #################
+# WP-CLI
+#################
+
+# Pulled from
+# https://www.digitalocean.com/community/tutorials/how-to-use-puppet-to-manage-wordpress-themes-and-plugins-on-ubuntu-14-04
+
+# Install curl
+#package { 'curl':
+#   ensure => "installed",
+#}
+
+# Install php5-cli
+#package { 'php5-cli':
+#   ensure => "installed",
+#}
+
+# Download WP-CLI using curl
+exec { 'Install WP CLI':
+   command => "/usr/bin/curl -o /usr/bin/wp -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar",
+#   require => [ Package['curl'], Package['php5-cli'] ],
+   creates => "/usr/bin/wp-cli"
+}
+
+# Change the mode of WP-CLI to a+x
+file { '/usr/bin/wp':
+   mode => "775",
+   require => Exec['Install WP CLI']
+}
+
+#################
 # Apache
 #################
 
