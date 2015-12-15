@@ -8,6 +8,11 @@ service { 'iptables':
 # WP-CLI
 #################
 
+# Once I figure out the directory refresh issues, this should be left commented unless
+# this step is failing because CURL and PHP5-CLI are not present
+# Comment out "# Download WP-CLI using curl ( assumptions being made here )"
+# and uncomment everything else in this section
+
 # Pulled from
 # https://www.digitalocean.com/community/tutorials/how-to-use-puppet-to-manage-wordpress-themes-and-plugins-on-ubuntu-14-04
 
@@ -22,9 +27,15 @@ service { 'iptables':
 #}
 
 # Download WP-CLI using curl
+#exec { 'Install WP CLI':
+#   command => "/usr/bin/curl -o /usr/bin/wp -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar",
+#   require => [ Package['curl'], Package['php5-cli'] ],
+#   creates => "/usr/bin/wp-cli"
+#}
+
+# Download WP-CLI using curl ( assumptions being made here )
 exec { 'Install WP CLI':
    command => "/usr/bin/curl -o /usr/bin/wp -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar",
-#   require => [ Package['curl'], Package['php5-cli'] ],
    creates => "/usr/bin/wp-cli"
 }
 
@@ -43,8 +54,9 @@ class { 'apache': }
 apache::vhost { 'wpdev.org':
    port    => '8080',
    docroot => '/var/www/html',
-#   docroot_owner => 'apache',
-#   docroot_group => 'apache',
+   # Directory refresh issue, leaving root as owner
+   #docroot_owner => 'apache',
+   #docroot_group => 'apache',
 }
 
 class { '::apache::mod::php': }
@@ -76,8 +88,9 @@ class { 'wordpress':
    db_password    => 'hvyYH856g&89y76',
    create_db      => true,
    create_db_user => true,
-# Getting caught on a directory refresh that's getting invoked somewhere. Just having root own everything...for now
-#  wp_owner       => 'apache',
+   # Getting caught on a directory refresh that's getting invoked somewhere that
+   # reowns the directory to root. Just having root own everything...for now
+   #  wp_owner       => 'apache',
    wp_owner       => 'root',
 
    # hunter-wordpress module isn't handling the change the WP's SSL cert and redirect
