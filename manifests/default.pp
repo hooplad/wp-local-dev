@@ -22,9 +22,10 @@ service { 'iptables':
 #}
 
 # Install php5-cli
-#package { 'php5-cli':
-#   ensure => "installed",
-#}
+package { 'php5-cli':
+   provider => 'yum',
+   ensure => "present",
+}
 
 # Download WP-CLI using curl
 #exec { 'Install WP CLI':
@@ -45,10 +46,14 @@ file { '/usr/bin/wp':
    require => Exec['Install WP CLI']
 }
 ->
+package { 'php5-cli':
+   provider => 'yum',
+   ensure => "present",
+}
+->
 exec { 'Finish WP Install':
    command => '/usr/bin/wp core install --url=http://wpdev.org --title="LOCAL DEV WordPress" --admin_user="admin" --admin_password="ouyi76376sgh3o8k3g9c7" --admin_email="root@localhost.localdomain"',
    cwd     => '/var/www/html',
-   path    => '/sbin:/bin:/usr/sbin:/usr/bin', 
 } 
 
 #################
