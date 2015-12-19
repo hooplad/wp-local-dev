@@ -36,33 +36,11 @@ apache::vhost { 'wpdev.org SSL':
 # WP-CLI
 #################
 
-# Once I figure out the directory refresh issues, this should be left commented unless
-# this step is failing because CURL and PHP5-CLI are not present
-# Comment out "# Download WP-CLI using curl ( assumptions being made here )"
-# and uncomment everything else in this section
-
 # Pulled from
 # https://www.digitalocean.com/community/tutorials/how-to-use-puppet-to-manage-wordpress-themes-and-plugins-on-ubuntu-14-04
 
-# Install curl
-#package { 'curl':
-#   ensure => "installed",
-#}
-
-# Install php5-cli
-#package { 'php5-cli':
-#   provider => 'yum',
-#   ensure => "present",
-#}
-
-# Download WP-CLI using curl
-#exec { 'Install WP CLI':
-#   command => "/usr/bin/curl -o /usr/bin/wp -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar",
-#   require => [ Package['curl'], Package['php5-cli'] ],
-#   creates => "/usr/bin/wp-cli"
-#}
-
 # Download WP-CLI using curl ( assumptions being made here )
+# dependent on PHP and Vhosts getting setup
 exec { 'Install WP CLI':
    command => "/usr/bin/curl -o /usr/bin/wp -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar",
    creates => "/usr/bin/wp-cli",
