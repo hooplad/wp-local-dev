@@ -77,8 +77,9 @@ class { '::mysql::server':
 # WordPress
 #################
 
+$wpinstalldir = '/var/www/html'
+
 class { 'wordpress': 
-   version        => '4.4',
    wp_site_domain => 'wpdev.org',
    db_user        => 'wordpress',
    db_password    => 'hvyYH856g&89y76',
@@ -86,13 +87,9 @@ class { 'wordpress':
    create_db_user => true,
    # Getting caught on a directory refresh that's getting invoked somewhere that
    # reowns the directory to root. Just having root own everything...for now
-   #  wp_owner       => 'apache',
-   wp_owner       => 'root',
+   #wp_owner       => 'apache',
 
-   # hunter-wordpress module isn't handling the change the WP's SSL cert and redirect
-   # Yay for not verifying variables!
-   install_url    => '--no-check-certificate https://wordpress.org',
-   install_dir    => '/var/www/html',   
+   install_dir    => $wpinstalldir,
 }
 
 #################
