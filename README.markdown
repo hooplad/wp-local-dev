@@ -1,7 +1,7 @@
 # Setup
 
 
-Download Virtualbox (5.x ) and Vagrant (1.7.4). The Puppet install might make you do a lot of things to your Mac and create a user specifically for Puppet. I'm sorry about that. 
+Download Virtualbox (5.x) and Vagrant (1.7.4). The Puppet install might make you do a lot of things to your Mac and create a user specifically for Puppet. I'm sorry about that. 
 
 Getting going with VirtualBox should be straightforward unless you're using an old version. If this is the case, STOP RIGHT NOW. You might be breaking your other Puppet/Vagrant scripts if you upgrade to 5.x. Otherwise, be sure to uninstall the older verson of VirtualBox first, then install the new version.
 
