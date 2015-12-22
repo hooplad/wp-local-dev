@@ -33,7 +33,7 @@ Add the line to it. Be sure that you're appending this;
 Pulled these steps from ( http://blog.brianjohn.com/forwarding-ports-in-os-x-el-capitan.html )
 
 ```
-sudo vim /etc/pf.anchors/wp-local-devlopment
+sudo vim /etc/pf.anchors/wp-local-development
 ```
 
 The file should contain:
@@ -48,13 +48,13 @@ rdr pass on lo0 inet proto tcp from any to any port 443 -> 127.0.0.1 port 8443
 Now test these settings with the following command;
 
 ```
-sudo pfctl -vnf /etc/pf.anchors/wp-local-devlopment
+sudo pfctl -vnf /etc/pf.anchors/wp-local-development
 ```
 
 Now we want to be able to apply these changes to your workstation. Create another file like so;
 
 ```
-sudo vim /etc/pf-wp-local-devlopment.conf
+sudo vim /etc/pf-wp-local-development.conf
 ```
 
 Have it say;
@@ -62,14 +62,14 @@ Have it say;
 
 ```
 rdr-anchor "forwarding"
-load anchor "forwarding" from "/etc/pf.anchors/org.spinbit.wp-devlopment"
+load anchor "forwarding" from "/etc/pf.anchors/org.spinbit.wp-development"
 ```
 
 
 Test and apply this configuration like so;
 
 ```
-sudo pfctl -ef /etc/pf.anchors/wp-local-devlopment
+sudo pfctl -ef /etc/pf.anchors/wp-local-development
 ```
 
 There's one last piece where you can automatically forward these things off at boot. Pull down the details here but haven't run through them yet, read about Port Forwarding on OS X 10.10 at Boot. This is entirely up to you and depends on how you have your workstation setup. This isn't required but might save you time in the future as otherwise you'll need to run the "pfctl -ef" ^^ mentioned previously. Otherwise, read on!
