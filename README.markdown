@@ -72,8 +72,9 @@ Test and apply this configuration like so;
 sudo pfctl -ef /etc/pf.anchors/wp-local-development
 ```
 
-There's one last piece where you can automatically forward these things off at boot. Pull down the details here but haven't run through them yet, read about Port Forwarding on OS X 10.10 at Boot. This is entirely up to you and depends on how you have your workstation setup. This isn't required but might save you time in the future as otherwise you'll need to run the "pfctl -ef" ^^ mentioned previously. Otherwise, read on!
+There's one last piece where you can automatically forward these things off at boot. Pull down the details here but haven't run through them yet, read about Port Forwarding on OS X 10.10 at Boot. This is entirely up to you and depends on how you have your workstation setup. This isn't required but might save you time in the future as otherwise you'll need to run the **pfctl -ef** mentioned previously. Otherwise, read on!
 
+Now you should have everything settled. Just **vagrant up** and go to wpdev.org and you'll be set to go!
 
 ## Port Forwarding on OS X 10.10 at Boot
 
