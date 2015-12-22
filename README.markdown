@@ -62,7 +62,7 @@ Have it say;
 
 ```
 rdr-anchor "forwarding"
-load anchor "forwarding" from "/etc/pf.anchors/org.spinbit.wp-development"
+load anchor "forwarding" from "/etc/pf.anchors/wp-development"
 ```
 
 
