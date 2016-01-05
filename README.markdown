@@ -28,6 +28,24 @@ Add the line to it. Be sure that you're appending this;
 127.0.0.1 wpdev.org
 ```
 
+## Port Fowarding on OS X 10.8
+
+This is what I have stored away to make port forwaring happen;
+
+```
+sudo ipfw delete 00001;
+sudo ipfw add 101 fwd 127.0.0.1,8443 tcp from any to me 443 in;
+sudo ipfw add 100 fwd 127.0.0.1,8080 tcp from any to me 80 in
+```
+
+This is what my rules look like;
+
+```
+00100   154    11743 fwd 127.0.0.1,8080 tcp from any to me dst-port 80 in
+00101     0        0 fwd 127.0.0.1,8443 tcp from any to me dst-port 443 in
+65535 36758 18226089 allow ip from any to any
+```
+
 ## Port Forwarding on OS X 10.10
 
 Pulled these steps from ( http://blog.brianjohn.com/forwarding-ports-in-os-x-el-capitan.html )
