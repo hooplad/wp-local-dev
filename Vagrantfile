@@ -5,8 +5,11 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-   # TODO this could be more specific. Not able to locate the box URL for this...
    config.vm.box = "centos64"
+
+   # http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20131103.box
+   # this pulls down quite a bit of updates and installs the guest VM addtions for VirtualBox...
+   config.vm.box_url = http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20131103.box
 
    config.vm.hostname = "wp-dev-localhost"
    # You will need to forward ports on your machine to allow yourself
