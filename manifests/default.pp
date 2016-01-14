@@ -91,6 +91,7 @@ class { 'wordpress':
    db_password    => 'hvyYH856g&89y76',
    create_db      => true,
    create_db_user => true,
+   wp_multisite   => true,
    # Getting caught on a directory refresh that's getting invoked somewhere that
    # reowns the directory to root. Just having root own everything...for now
    #wp_owner       => 'apache',
