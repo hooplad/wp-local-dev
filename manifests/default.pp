@@ -1,7 +1,8 @@
 # Disabling IP tables on the VM
 # is preventing requests from reaching httpd
 service { 'iptables':
-    ensure => 'stopped',
+   ensure => 'stopped',
+   enable => false,
 }
 
 #################
