@@ -15,6 +15,8 @@ apache::vhost { 'wpdev.org NON-SSL':
    servername => 'wpdev.org',
    docroot    => '/var/www/html',
    port       => '80',
+   options    => ['Indexes','FollowSymLinks','Includes'],
+   override   => ['FileInfo', 'Options'],
    before     => Exec['Install WP CLI'],
    # Directory refresh issue, leaving root as owner
    #docroot_owner => 'apache',
@@ -25,6 +27,8 @@ apache::vhost { 'wpdev.org SSL':
    servername => 'wpdev.org',
    docroot    => '/var/www/html',
    port       => '443',
+   options    => ['Indexes','FollowSymLinks','Includes'],
+   override   => ['FileInfo', 'Options'],
    ssl        => true,
    # Directory refresh issue, leaving root as owner
    #docroot_owner => 'apache',
