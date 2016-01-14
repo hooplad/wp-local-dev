@@ -52,8 +52,8 @@ file { '/usr/bin/wp':
 }
 ->
 exec { 'Finish WP Install':
-   command => 'wp core install --url=http://wpdev.org --title="LOCAL DEV WordPress" --admin_user="admin" --admin_password="ouyi76376sgh3o8k3g9c7" --admin_email="root@localhost.localdomain"',
-   #command => 'wp core multisite-install --url=http://wpdev.org --title="LOCAL DEV WordPress" --admin_user="admin" --admin_password="ouyi76376sgh3o8k3g9c7" --admin_email="root@localhost.localdomain"', # Comment this in and the other out if you want to start with a MS site
+   command => 'wp core install --url=http://wpdev.org --title="LOCAL DEV WordPress" --admin_user="admin" --admin_password="admin" --admin_email="root@localhost.localdomain"',
+   #command => 'wp core multisite-install --url=http://wpdev.org --title="LOCAL DEV WordPress" --admin_user="admin" --admin_password="admin" --admin_email="root@localhost.localdomain"', # Comment this in and the other out if you want to start with a MS site
    cwd     => '/var/www/html',
    path    => '/sbin:/bin:/usr/sbin:/usr/bin',
 }
