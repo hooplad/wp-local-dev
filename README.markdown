@@ -8,24 +8,20 @@ Getting going with VirtualBox should be straightforward unless you're using an o
 You will run the following command once you have Vagrant and Puppet installed. Open a Terminal window and run the following;
 
 ```
-puppet module install hunner-wordpress
 puppet module install puppetlabs-apache
 ```
 
 If you don't have any pretense to installing Ruby/Puppet on your local machine, just grab the following modules and point your Vagrant to that directory;
 
-puppet-apache (1.7.1)
-
-[WordPress](https://forge.puppetlabs.com/hunner/wordpress/)
-
-puppetlabs/concat (>= 1.0.0)
-puppetlabs/mysql (>= 2.1.0)
-puppetlabs/stdlib (>= 2.3.1)
 
 [Apache](https://forge.puppetlabs.com/puppetlabs/apache)
 
 puppetlabs/stdlib (>= 2.4.0 < 5.0.0)
 puppetlabs/concat (>= 1.1.1 < 2.0.0)
+
+
+[MySQL](https://forge.puppetlabs.com/puppetlabs/mysql)
+
 
 You will need to do some port forwarding to make sure that you have access to the VM that you're running from your workstation.
 
