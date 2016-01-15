@@ -8,6 +8,11 @@ $databaseuser = "wordpress"
 $password     = "hvyYH856g&89y76"
 $host         = "localhost"
 
+# For Apache
+$docroot = "/var/www/html"
+$apacheoptions = ['Indexes','FollowSymLinks','Includes']
+$apacheoverrides = ['FileInfo', 'Options']
+
 # Disabling IP tables on the VM
 # is preventing requests from reaching httpd
 service { 'iptables':
@@ -24,10 +29,10 @@ class { '::apache::mod::php': }
 
 apache::vhost { 'wpdev.org NON-SSL':
    servername => 'wpdev.org',
-   docroot    => '/var/www/html',
+   docroot    => $docroot,
    port       => '80',
-   options    => ['Indexes','FollowSymLinks','Includes'],
-   override   => ['FileInfo', 'Options'],
+   options    => $apacheoptions,
+   override   => $apacheoverrides,
    before     => Exec['Install WP CLI'],
    # Directory refresh issue, leaving root as owner
    #docroot_owner => 'apache',
@@ -36,10 +41,10 @@ apache::vhost { 'wpdev.org NON-SSL':
 
 apache::vhost { 'wpdev.org SSL':
    servername => 'wpdev.org',
-   docroot    => '/var/www/html',
+   docroot    => $docroot,
    port       => '443',
-   options    => ['Indexes','FollowSymLinks','Includes'],
-   override   => ['FileInfo', 'Options'],
+   options    => $apacheoptions,
+   override   => $apacheoverrides,
    ssl        => true,
    # Directory refresh issue, leaving root as owner
    #docroot_owner => 'apache',
@@ -68,20 +73,20 @@ file { '/usr/bin/wp':
 ->
 exec { 'Download WordPress Core':
    command => "wp core download", 
-   cwd     => '/var/www/html',
+   cwd     => $docroot,
    path    => '/sbin:/bin:/usr/sbin:/usr/bin',
 }
 ->
 exec { 'Generate wp-config.php':
    command => "wp core config --dbname='${databasename}' --dbuser='${databaseuser}' --dbpass='${password}'", 
-   cwd     => '/var/www/html',
+   cwd     => $docroot,
    path    => '/sbin:/bin:/usr/sbin:/usr/bin',
 }
 ->
 exec { 'Finish WP Install':
    #command => 'wp core install --url=http://wpdev.org --title="LOCAL DEV WordPress" --admin_user="admin" --admin_password="admin" --admin_email="root@localhost.localdomain"',
    command => 'wp core multisite-install --url=http://wpdev.org --title="LOCAL DEV WordPress" --admin_user="admin" --admin_password="admin" --admin_email="root@localhost.localdomain"', # Comment this in and the other out if you want to start with a MS site
-   cwd     => '/var/www/html',
+   cwd     => $docroot,
    path    => '/sbin:/bin:/usr/sbin:/usr/bin',
 }
 
