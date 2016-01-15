@@ -1,3 +1,13 @@
+#################
+# Puppet wide variables
+#################
+
+# For MySQL
+$databasename = "wordpress"
+$databaseuser = "wordpress"
+$password     = "hvyYH856g&89y76"
+$host         = "localhost"
+
 # Disabling IP tables on the VM
 # is preventing requests from reaching httpd
 service { 'iptables':
@@ -56,9 +66,21 @@ file { '/usr/bin/wp':
    mode => "775",
 }
 ->
+exec { 'Download WordPress Core':
+   command => "wp core download", 
+   cwd     => '/var/www/html',
+   path    => '/sbin:/bin:/usr/sbin:/usr/bin',
+}
+->
+exec { 'Generate wp-config.php':
+   command => "wp core config --dbname='${databasename}' --dbuser='${databaseuser}' --dbpass='${password}'", 
+   cwd     => '/var/www/html',
+   path    => '/sbin:/bin:/usr/sbin:/usr/bin',
+}
+->
 exec { 'Finish WP Install':
-   command => 'wp core install --url=http://wpdev.org --title="LOCAL DEV WordPress" --admin_user="admin" --admin_password="admin" --admin_email="root@localhost.localdomain"',
-   #command => 'wp core multisite-install --url=http://wpdev.org --title="LOCAL DEV WordPress" --admin_user="admin" --admin_password="admin" --admin_email="root@localhost.localdomain"', # Comment this in and the other out if you want to start with a MS site
+   #command => 'wp core install --url=http://wpdev.org --title="LOCAL DEV WordPress" --admin_user="admin" --admin_password="admin" --admin_email="root@localhost.localdomain"',
+   command => 'wp core multisite-install --url=http://wpdev.org --title="LOCAL DEV WordPress" --admin_user="admin" --admin_password="admin" --admin_email="root@localhost.localdomain"', # Comment this in and the other out if you want to start with a MS site
    cwd     => '/var/www/html',
    path    => '/sbin:/bin:/usr/sbin:/usr/bin',
 }
@@ -79,24 +101,12 @@ class { '::mysql::server':
   root_password => 'hjkai8yihbk3o87fwiscig238yvibge98dhkckb',
 }
 
-#################
-# WordPress
-#################
-
-$wpinstalldir = '/var/www/html'
-
-class { 'wordpress': 
-   wp_site_domain => 'wpdev.org',
-   db_user        => 'wordpress',
-   db_password    => 'hvyYH856g&89y76',
-   create_db      => true,
-   create_db_user => true,
-   wp_multisite   => true,
-   # Getting caught on a directory refresh that's getting invoked somewhere that
-   # reowns the directory to root. Just having root own everything...for now
-   #wp_owner       => 'apache',
-
-   install_dir    => $wpinstalldir,
+@@mysql::db { "${databasename}" :
+   user     => $databaseuser,
+   password => $password,
+   host     => $host,
+   grant    => ['ALL'],
+   # TODO, need to test how fragile this is. will puppet continue by creating an empty database
+   # or will it barf and stop running? just rename this file to check and see
+   #sql      => '/var/dbdump/dump.sql',
 }
-
-#################
