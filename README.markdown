@@ -9,6 +9,7 @@ You will run the following command once you have Vagrant and Puppet installed. O
 
 ```
 puppet module install puppetlabs-apache
+puppet module install puppetlabs-mysql
 ```
 
 If you don't have any pretense to installing Ruby/Puppet on your local machine, just grab the following modules and point your Vagrant to that directory;
